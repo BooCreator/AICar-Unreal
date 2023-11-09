@@ -92,5 +92,5 @@ void FWebSockets::OnError(const FString & Message) {
 
 void FWebSockets::OnMessage(const FString & Message) {
 	UE_LOG(LogTemp, Warning, TEXT("WebSockets on_message: %s"), *Message);
-	//WebSockets_Messages.push(Message);
+	this->out->push(Message);
 }
