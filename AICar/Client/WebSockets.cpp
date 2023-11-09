@@ -38,11 +38,11 @@ uint32 FWebSockets::Run()
         float sleep_time = 1.f;
 		if (Socket->IsConnected()) {
             sleep_time = 0.001f;
-			//if (WebSockets_Requests.size() > 0) {
-			//	FString JSONPayload = WebSockets_Requests.front();
-			//	WebSockets_Requests.pop();
-			//	Socket->Send(JSONPayload);
-			//}
+			if (this->in->size() > 0) {
+				FString JSONPayload = this->in->front();
+				this->in->pop();
+				Socket->Send(JSONPayload);
+			}
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));
 			Socket->Connect();
