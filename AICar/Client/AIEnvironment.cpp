@@ -89,7 +89,7 @@ void AIEnvironment::dispose() {
 }
 
 FActions AIEnvironment::popMessage() {
-	FString Message = TEXT('');
+	FString Message = TEXT("");
 	//FString Message = WebSockets_Messages.front();
 	//WebSockets_Messages.pop();
 	FActions result = this->Loader.ParseJSON(Message);

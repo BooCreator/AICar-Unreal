@@ -140,7 +140,6 @@ public:
 
 	void dispose();
 	FActions popMessage();
-}
 public:
 	TArray<AIParams> ai;
 	bool reset = true;
