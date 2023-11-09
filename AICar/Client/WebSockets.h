@@ -2,22 +2,44 @@
 
 #pragma once
 
-//#include <queue>
+#include "WebSocketsModule.h" // Module definition
+#include "IWebSocket.h"       // Socket definition
+
+#include "Modules/ModuleManager.h"
+
+#include "HAL/Runnable.h"
+
 #include "CoreMinimal.h"
 
-//std::queue<FString> WebSockets_Requests;
-//std::queue<FString> WebSockets_Messages;
-
-class AICAR_API WebSockets {
+class AICAR_API FWebSockets : public FRunnable{
 private:
-	FString ServerURL = TEXT("ws://127.0.0.1/");
-	FString ws = TEXT("ws");
-	//std::thread* connection = nullptr;
+	static  FWebSockets* Runnable;
+    
+    FRunnableThread* Thread;
+    
+    FString url;
+    TArray<FString> in;
+    TArray<FString> out;
+    
+    FThreadSafeCounter StopTaskCounter;
 public:
-	WebSockets();
-	~WebSockets();
+	bool IsFinished() const { return false; }
+    
+    FWebSockets(FString Url, TArray<FString>& In, TArray<FString>& Out);
+    virtual ~FWebSockets();
 
-	void Init(FString server, int ai_count);
+    // Begin FRunnable interface.
+    virtual bool Init();
+    virtual uint32 Run();
+    virtual void Stop();
 
-	void Close();
+    void EnsureCompletion();
+    
+    static FWebSockets* JoyInit(FString Url, TArray<FString>& In, TArray<FString>& Out);
+    static void Shutdown();
+    static bool IsThreadFinished();
+
+	void OnMessage(const FString & Message);
+	void OnError(const FString & Message);
+	void OnConnected();
 };

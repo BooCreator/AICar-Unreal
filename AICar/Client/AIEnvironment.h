@@ -120,7 +120,7 @@ private:
 	int delayForSlowCounter = 0;
 	int currentForSlowCounter = 0;
 	JsonLoader Loader;
-	WebSockets Socket;
+	//WebSockets Socket;
 public:
 	AIEnvironment();
 	~AIEnvironment();
