@@ -129,7 +129,7 @@ public:
 
 	void init(FString link, TArray<AMyPlayerController*> controllers);
 
-	//void tick(float DeltaSeconds, FString JSONPayload);
+	void tick(float DeltaSeconds, FString JSONPayload);
 
 	FString readStringSetting(FString section, FString param);
 	float readFloatSetting(FString section, FString param);
@@ -139,7 +139,6 @@ public:
 	TArray<int> get_kinds(int n);
 
 	void dispose();
-	FActions popMessage();
 public:
 	TArray<AIParams> ai;
 	bool reset = true;

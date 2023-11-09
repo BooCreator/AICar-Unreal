@@ -681,7 +681,7 @@ void AAICarGameMode::CustomPhysics(float DeltaSeconds, FBodyInstance* BodyInstan
 	UE_LOG(LogTemp, Warning, TEXT("CustomPhysics::tick %f"), DeltaSeconds);
 	FillCarInfo();
 	FString JSONPayload = this->saveCarInfoToJson("carInfo.json", false, this->ai_env.reset);
-	//this->ai_env.tick(DeltaSeconds, JSONPayload);
+	this->ai_env.tick(DeltaSeconds, JSONPayload);
 	UE_LOG(LogTemp, Warning, TEXT("CustomPhysics::tick end"));
 }
 
