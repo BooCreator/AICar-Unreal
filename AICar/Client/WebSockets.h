@@ -4,25 +4,23 @@
 #include "WebSocketsModule.h" // Module definition
 #include "IWebSocket.h"       // Socket definition
 
-#include <thread>
-#include <windows.h>
+//#include <thread>
+//#include <windows.h>
 
 #include "Modules/ModuleManager.h"
 
-#include "JsonLoader.h"
-
-#include <queue>
+//#include <queue>
 #include "CoreMinimal.h"
 
 bool WebSockets_run = false;
-std::queue<FString> WebSockets_Requests;
-std::queue<FString> WebSockets_Messages;
+//std::queue<FString> WebSockets_Requests;
+//std::queue<FString> WebSockets_Messages;
 
 class AICAR_API WebSockets {
 private:
 	FString ServerURL = TEXT("ws://127.0.0.1/");
 	FString ws = TEXT("ws");
-	std::thread* connection = nullptr;
+	//std::thread* connection = nullptr;
 private:
 	void doConnect();
 public:
