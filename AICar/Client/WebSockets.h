@@ -9,12 +9,12 @@
 
 #include "Modules/ModuleManager.h"
 
-//#include <queue>
+#include <queue>
 #include "CoreMinimal.h"
 
 bool WebSockets_run = false;
-//std::queue<FString> WebSockets_Requests;
-//std::queue<FString> WebSockets_Messages;
+std::queue<FString> WebSockets_Requests;
+std::queue<FString> WebSockets_Messages;
 
 class AICAR_API WebSockets {
 private:
