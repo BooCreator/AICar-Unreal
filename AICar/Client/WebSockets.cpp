@@ -15,8 +15,8 @@ void WebSockets::Init(FString server, int ai_count) {
 	this->Close();
 	WebSockets_run = true;
 	this->ServerURL = server;
-	if (ai_count > 0)
-		this->connection = new std::thread(&WebSockets::doConnect);
+	//if (ai_count > 0)
+	//	this->connection = new std::thread(&WebSockets::doConnect);
 }
 
 void WebSockets::doConnect() {
@@ -40,7 +40,7 @@ void WebSockets::doConnect() {
 			Socket->Connect();
 			sleep_time = 1000;
 		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
+		FPlatformProcess::Sleep(sleep_time);
 	}
 	Socket->Close();
 }

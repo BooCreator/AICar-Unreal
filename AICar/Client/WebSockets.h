@@ -5,7 +5,6 @@
 #include "IWebSocket.h"       // Socket definition
 
 #include <thread>
-#include <chrono>
 
 #include "Modules/ModuleManager.h"
 
