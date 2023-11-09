@@ -40,7 +40,7 @@ void WebSockets::doConnect() {
 			Socket->Connect();
 			sleep_time = 1000;
 		}
-		Sleep(sleep_time);
+		std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
 	}
 	Socket->Close();
 }
