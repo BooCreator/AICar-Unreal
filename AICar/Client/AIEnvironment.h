@@ -72,9 +72,6 @@ public:
 
 
 struct AIParams {
-private:
-	std::queue<FString> Requests;
-	std::queue<FString> Messages;
 public:
 	FString Type;
 	UMaterialInterface* Color;
@@ -124,7 +121,9 @@ private:
 	int delayForSlowCounter = 0;
 	int currentForSlowCounter = 0;
 	JsonLoader Loader;
-	//WebSockets Socket;
+
+	std::queue<FString> Requests;
+	std::queue<FString> Messages;
 public:
 	AIEnvironment();
 	~AIEnvironment();
