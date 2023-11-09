@@ -50,7 +50,7 @@ void AIEnvironment::load_ai() {
 
 void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
 	this->myCarsController = controllers;
-	//this->Connection.Init(link, this->count);
+	this->Socket.Init(link, this->count);
 	this->reset = true;
 }
 
