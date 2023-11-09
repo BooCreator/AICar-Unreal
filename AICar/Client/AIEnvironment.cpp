@@ -53,6 +53,7 @@ void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers
 	this->Messages = std::queue<FString>();
 	this->myCarsController = controllers;
 	this->reset = true;
+	this->Socket = FWebSockets::JoyInit(link, &this->Requests, &this->Messages);
 }
 
 UMaterialInterface* AIEnvironment::get_color(int i) {
