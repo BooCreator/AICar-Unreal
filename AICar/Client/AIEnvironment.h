@@ -125,7 +125,7 @@ public:
 
 	void load_ai();
 
-	//void init(FString link, TArray<AMyPlayerController*> controllers);
+	void init(FString link, TArray<AMyPlayerController*> controllers);
 
 	//void tick(float DeltaSeconds, FString JSONPayload);
 

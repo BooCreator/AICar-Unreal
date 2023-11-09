@@ -48,11 +48,11 @@ void AIEnvironment::load_ai() {
 	}
 }
 
-//void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
-//	this->myCarsController = controllers;
-//	this->Connection.Init(link, this->count);
-//	this->reset = true;
-//}
+void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
+	this->myCarsController = controllers;
+	//this->Connection.Init(link, this->count);
+	this->reset = true;
+}
 
 UMaterialInterface* AIEnvironment::get_color(int i) {
 	int ai_n = this->ai.Num(); int c = 0;

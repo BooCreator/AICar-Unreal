@@ -72,12 +72,12 @@ void AAICarGameMode::createFloorAndWall()
 
 	auto floor = GetWorld()->SpawnActor<AFloor>(LocationFloor, RotationFloor, SpawnInfoFloor);
 
-	// Переменные для хранения размеров
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	FVector Origin;
 	FVector BoxExtent;
-	// Получить размеры актора
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	floor->GetActorBounds(false, Origin, BoxExtent);
-	// Теперь в переменной BoxExtent у вас будут размеры плоскости в трех измерениях (X, Y, Z)
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ BoxExtent пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (X, Y, Z)
 	float Width = BoxExtent.X * 2.0f;
 	float Height = BoxExtent.Y * 2.0f;
 	float Depth = BoxExtent.Z * 2.0f;
@@ -200,7 +200,7 @@ void AAICarGameMode::createCamera(int scale)
 
 	FString nameCamera = newCamera->GetDebugName(newCamera);
 	//DEBUGMESSAGE("Camera: %s or %s", *nameCamera, *newCamera->GetName());
-	// Подключаемся к виду новой камеры
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	if (cameraMainNeed)
 	{
 		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
@@ -221,9 +221,9 @@ void AAICarGameMode::createMainTargetActor()
 
 void AAICarGameMode::createTextActor()
 {
-	// Объявить указатель на Actor
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Actor
 	//AMyText* text;
-	FVector SpawnLocation(0.f, 0.f, 0.f); // Установите желаемое местоположение для спавна текста
+	FVector SpawnLocation(0.f, 0.f, 0.f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	FActorSpawnParameters SpawnParams;
 	AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(AMyText::StaticClass(), SpawnLocation, FRotator::ZeroRotator, SpawnParams);
 
@@ -232,7 +232,7 @@ void AAICarGameMode::createTextActor()
 		AMyText* TextActor = Cast<AMyText>(SpawnedActor);
 		if (TextActor)
 		{
-			FString Text = TEXT("Привет, мир!"); // Установите желаемый текст
+			FString Text = TEXT("пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ!"); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 			TextActor->SetText(Text);
 		}
 	}
@@ -243,7 +243,7 @@ void AAICarGameMode::saveStringSetting(FString section, FString param, FString v
 	GConfig->SetString(*section, *param, *value, GGameIni);
 }
 
-// Функция для поиска актора по имени
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 AActor* AAICarGameMode::FindActorByName(UWorld* World, FString ActorName)
 {
 	TArray<AActor*> Actors;
@@ -271,7 +271,7 @@ void AAICarGameMode::BeginPlay()
 	
 	createMainTargetActor();
 
-	int scale = (89013 * h_area + 198.72); //магические цифры - коефициенты линейного уравнения
+	int scale = (89013 * h_area + 198.72); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 	createCamera(scale);
 
@@ -310,14 +310,14 @@ void AAICarGameMode::BeginPlay()
 	MyCarInfo.rotation = mainCarCast->GetActorRotation();
 	MyCarInfo.cars = mainCarCast;
 
-	// Создаем контроллер для машинки и привязываем его
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 	AMyPlayerController* MyCarController = GetWorld()->SpawnActor<AMyPlayerController>();
 	if (MyCarController)
 	{
 		//CarController->Possess(mainCarCast);
 		AMyPlayerState* MyCustomPlayerState = GetWorld()->SpawnActor<AMyPlayerState>();
 		mainCarCast->SetPlayerState(MyCustomPlayerState);
-		MyCustomPlayerState->CarHealth = 100.0f; // Установите начальное состояние машинки
+		MyCustomPlayerState->CarHealth = 100.0f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 		MyCarController->setCar(mainCarCast);
 		MyCarController->setId(myCars.Num());
@@ -345,14 +345,14 @@ void AAICarGameMode::BeginPlay()
 			}
 			//DEBUGMESSAGE("Spawned car %d, name %s", i, *newCar->GetName());
 
-			// Создаем контроллер для машинки и привязываем его
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
 			AMyPlayerController* CarController = GetWorld()->SpawnActor<AMyPlayerController>();
 			if (CarController)
 			{
 				CarController->Possess(newCar);
 				AMyPlayerState* MyCustomPlayerState = GetWorld()->SpawnActor<AMyPlayerState>();
 				newCar->SetPlayerState(MyCustomPlayerState);
-				MyCustomPlayerState->CarHealth = 100.0f; // Установите начальное состояние машинки
+				MyCustomPlayerState->CarHealth = 100.0f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 				CarController->setCar(newCar);
 				CarController->setId(i);
 				CarController->setMaxCarCount(myCars.Num());
@@ -384,7 +384,7 @@ void AAICarGameMode::BeginPlay()
 		}
 	}
 
-	//this->ai_env.init(TEXT("ws://127.0.0.1:5055/ws/"), this->myCarsController);
+	this->ai_env.init(TEXT("ws://127.0.0.1:5055/ws/"), this->myCarsController);
 }
 
 /*void AAICarGameMode::SetupPlayerInputComponent(UInputComponent* InputComponent)
@@ -403,13 +403,13 @@ void AAICarGameMode::OnToggleCamera()
 
 void AAICarGameMode::OnInputKeyDown(FKey Key, EInputEvent Event)
 {
-	// Если нажата кнопка F
+	// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ F
 	if (Key == EKeys::F)
 	{
-		// Получаем указатель на предыдущую камеру
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		//AActor* PreviousCamera = GetWorld()->GetFirstPlayerController()->GetPreviousViewTarget();
 
-		// Подключаемся к виду предыдущей камеры
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		//PlayerController->SetViewTarget(PreviousCamera);
 	}
 }
@@ -428,8 +428,8 @@ void AAICarGameMode::loadToEnv(bool show = false)
 			double angleCar = (double)carInfoArr[i].rotation.Yaw;
 
 			Vec loc = Vec(carInfoArr[i].location.X + size.x, carInfoArr[i].location.Y + size.y);
-			Vec vel = Vec(carInfoArr[i].physicsLinearVelocity.X, carInfoArr[i].physicsLinearVelocity.Y); // угол-направление колёс. длина - скрость машины ?
-			Vec dir = Vec().fromAngle(angleCar / 180 * M_PI, 1.); // работает, направление машины
+			Vec vel = Vec(carInfoArr[i].physicsLinearVelocity.X, carInfoArr[i].physicsLinearVelocity.Y); // пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ?
+			Vec dir = Vec().fromAngle(angleCar / 180 * M_PI, 1.); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 			Car _car(loc, vel, (int)carInfoArr[i].carWidth, (int)carInfoArr[i].carLength, (int)carInfoArr[i].carLength,
 				env.params.car.vel_max, env.params.car.acc_max, dir, 1.);
@@ -451,8 +451,8 @@ void AAICarGameMode::loadToEnv(bool show = false)
 			double angleCar = (double)carInfoArr[i].rotation.Yaw;
 
 			Vec loc = Vec(carInfoArr[i].location.X + size.x, carInfoArr[i].location.Y + size.y);
-			Vec vel = Vec(carInfoArr[i].physicsLinearVelocity.X, carInfoArr[i].physicsLinearVelocity.Y); // угол-направление колёс. длина - скрость машины ?
-			Vec dir = Vec().fromAngle(angleCar / 180 * M_PI, 1.); // работает, направление машины
+			Vec vel = Vec(carInfoArr[i].physicsLinearVelocity.X, carInfoArr[i].physicsLinearVelocity.Y); // пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ ?
+			Vec dir = Vec().fromAngle(angleCar / 180 * M_PI, 1.); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 			//Car _car(loc, vel, (int)carInfoArr[i].carWidth, (int)carInfoArr[i].carLength, (int)carInfoArr[i].carLength,
 			//	env.params.car.vel_max, env.params.car.acc_max, dir, 1.);
@@ -473,17 +473,17 @@ void AAICarGameMode::loadToEnv(bool show = false)
 
 double AAICarGameMode::vectorToAngle(FVector inputVector)
 {
-	// Расчет угла в радианах
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	double angle = atan2(inputVector.Y, inputVector.X);
 
-	// Преобразование угла в градусы
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	angle = angle * 180 / M_PI;
 	return angle;
 } 
 
 double AAICarGameMode::vectorToLenght(FVector inputVector) {
 
-	// Расчет длины вектора
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	double length = sqrt(inputVector.X * inputVector.X + inputVector.Y * inputVector.Y);
 
 	return length;
@@ -491,29 +491,29 @@ double AAICarGameMode::vectorToLenght(FVector inputVector) {
 
 double AAICarGameMode::vectorToAngle(Vec inputVector)
 {
-	// Расчет угла в радианах
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	double angle = atan2(inputVector.y, inputVector.x);
 
-	// Преобразование угла в градусы
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	angle = angle * 180 / M_PI;
 	return angle;
 }
 
 double AAICarGameMode::vectorToLenght(Vec inputVector) {
 
-	// Расчет длины вектора
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	double length = sqrt(inputVector.x * inputVector.x + inputVector.y * inputVector.y);
 
 	return length;
 }
 
-// Функция для вычисления скалярного произведения двух векторов
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 float AAICarGameMode::DotProduct(const FVector& v1, const FVector& v2)
 {
 	return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
 }
 
-// Функция для вычисления длины вектора
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 float AAICarGameMode::Magnitude(const FVector& v)
 {
 	return sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
@@ -525,17 +525,17 @@ float AAICarGameMode::AngleBetweenVectors(const FVector& v1, const FVector& v2)
 	float magnitude1 = Magnitude(v1);
 	float magnitude2 = Magnitude(v2);
 
-	// Защита от деления на ноль
+	// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 	if (magnitude1 == 0.0f || magnitude2 == 0.0f)
 	{
 		return 0.0f;
 	}
 
-	// Вычисление угла в радианах
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	float cosTheta = dotProduct / (magnitude1 * magnitude2);
 	float theta = acos(cosTheta);
 
-	// Преобразование угла в градусы
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	float angleInDegrees = theta * 180.0f / 3.14159265f;
 
 	return angleInDegrees;
@@ -696,29 +696,29 @@ TArray<FString> AAICarGameMode::GetActorCornerCoordinates(AActor* Actor)
 
 	if (Actor)
 	{
-		// Получаем компоненты актёра
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		TArray<UStaticMeshComponent*> StaticMeshComponents;
 		Actor->GetComponents<UStaticMeshComponent>(StaticMeshComponents);
 
-		// Перебираем все компоненты статической сетки актёра
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 		for (UStaticMeshComponent* StaticMeshComp : StaticMeshComponents)
 		{
-			// Получаем статическую сетку компонента
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			UStaticMesh* StaticMesh = StaticMeshComp->GetStaticMesh();
 
 			if (StaticMesh)
 			{
-				// Получаем границы статической сетки
+				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 				FBoxSphereBounds Bounds = StaticMesh->GetBoundingBox();
 
-				// Получаем координаты углов границы
+				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 				FVector Min = (Bounds.GetBox().Min + FVector(Actor->GetActorLocation().X, Actor->GetActorLocation().Y, 0))/M;
 				FVector Max = (Bounds.GetBox().Max + FVector(Actor->GetActorLocation().X, Actor->GetActorLocation().Y, 0))/M;
 
-				// Получаем высоту актёра
+				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 				float Height = Bounds.GetBox().GetSize().Z;
 
-				// Преобразуем координаты и высоту в строки и добавляем их в массив
+				// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 				CornerCoordinates.Add(FString::Printf(TEXT("Top left:%f,%f,%f"), Min.X, Min.Y, Max.Z));
 				CornerCoordinates.Add(FString::Printf(TEXT("Top right:%f,%f,%f"), Max.X, Min.Y, Max.Z));
 				CornerCoordinates.Add(FString::Printf(TEXT("Bottom left:%f,%f,%f"), Min.X, Max.Y, Max.Z));
