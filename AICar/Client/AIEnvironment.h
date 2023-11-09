@@ -124,6 +124,8 @@ private:
 
 	std::queue<FString> Requests;
 	std::queue<FString> Messages;
+
+	FWebSockets* Socket = nullptr;
 public:
 	AIEnvironment();
 	~AIEnvironment();

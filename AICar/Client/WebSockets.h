@@ -11,7 +11,7 @@
 
 #include "CoreMinimal.h"
 
-class AICAR_API FWebSockets : public FRunnable{
+class AICAR_API FWebSockets : public FRunnable {
 private:
 	static FWebSockets* Runnable;
     
@@ -20,10 +20,10 @@ private:
     FString url;
     TArray<FString> in;
     TArray<FString> out;
-    
+public:
     FThreadSafeCounter StopTaskCounter;
 public:
-	bool IsFinished() const { return false; }
+	bool IsFinished() const { return StopTaskCounter.GetValue() > 0; }
     
     FWebSockets(FString Url, TArray<FString>& In, TArray<FString>& Out);
     virtual ~FWebSockets();

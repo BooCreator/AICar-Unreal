@@ -49,9 +49,9 @@ void AIEnvironment::load_ai() {
 }
 
 void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
-	this->myCarsController = controllers;
 	this->Requests = std::queue<FString>();
 	this->Messages = std::queue<FString>();
+	this->myCarsController = controllers;
 	this->reset = true;
 }
 
@@ -86,10 +86,16 @@ TArray<int> AIEnvironment::get_kinds(int n) {
 }
 
 void AIEnvironment::dispose() {
-
+	if (this->Socket && !this->Socket->IsFinished())
+		this->Socket->Stop();
 }
 
 void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
+	if (this->Requests.size() == 0)
+		this->Requests.push(JSONPayload);
+	//while(!this->Messages.size()) {
+	//	FPlatformProcess::Sleep(0.001f);
+	//}
 	if (this->Messages.size() > 0) {
 		FString Message = this->Messages.front();
 		this->Messages.pop();
@@ -102,57 +108,4 @@ void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
 			car->setRight(actions.cars[i].rotate);
 		}
 	}
-
-	//if (this->isState == 0 && this->count > 0) {
-	//	if (!this->Connection.isConnected()) {
-	//		UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));
-	//		this->Connection.Connect();
-	//	}
-	//	else {
-	//		this->Connection.Send(JSONPayload);
-	//		this->isState = 1; // wait
-	//		UE_LOG(LogTemp, Warning, TEXT("Send success! Use static: %d"), (this->isInited) ? 0 : 1);
-	//	}
-	//	this->currentForSlowCounter += DeltaSeconds * 1000;
-	//}
-	//else if (this->isState == 1) {
-	//	if (this->Connection.hasMessage()) {
-	//		this->lastActions = this->Connection.popMessage();
-	//		this->isState = 2; // process
-	//		this->isInited = true;
-	//	}
-	//}
-	//if (this->isState == 2) {
-	//	if (this->currentForSlowCounter < this->delayForSlowCounter) {
-	//		this->currentForSlowCounter += DeltaSeconds * 1000;
-	//	}
-	//	else {
-	//		this->isState = 0;
-	//		this->currentForSlowCounter = 0;
-	//	}
-	//	if (this->lastActions.params.fps > 0) {
-	//		GEngine->FixedFrameRate = this->lastActions.params.fps;
-	//		GEngine->bUseFixedFrameRate = true;
-	//	}
-	//	else {
-	//		GEngine->bUseFixedFrameRate = false;
-	//	}
-	//	UPhysicsSettings* PhysSetting = UPhysicsSettings::Get();
-	//	if (this->lastActions.params.phys_fps > 0) {
-	//		PhysSetting->custom_substepping = true;
-	//		PhysSetting->phys_fps = this->lastActions.params.phys_fps;
-	//		PhysSetting->speed_up = this->lastActions.params.speed_up;
-	//	}
-	//	else {
-	//		PhysSetting->custom_substepping = false;
-	//	}
-//
-	//	int count = (this->myCarsController.Num() < this->lastActions.cars.Num()) ? this->myCarsController.Num() : this->lastActions.cars.Num();
-	//	for (int i = 0; i < count; i++)
-	//	{
-	//		auto car = this->myCarsController[i];
-	//		car->setForward(this->lastActions.cars[i].gas);
-	//		car->setRight(this->lastActions.cars[i].rotate);
-	//	}
-	//}
 }

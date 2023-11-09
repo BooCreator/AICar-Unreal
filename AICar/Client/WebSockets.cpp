@@ -33,7 +33,7 @@ uint32 FWebSockets::Run()
 	Socket->OnConnectionError().AddRaw(this, &FWebSockets::OnError);
 	Socket->OnMessage().AddRaw(this, &FWebSockets::OnMessage);
 
-    while (StopTaskCounter.GetValue() == 0 && ! IsFinished())
+    while (! IsFinished())
     {
         float sleep_time = 1.f;
 		if (Socket->IsConnected()) {
