@@ -2,7 +2,7 @@
 
 #pragma once
 #include "JsonLoader.h"
-//#include "WebSockets.h"
+#include "WebSockets.h"
 #include "../MyPlayerController.h"
 #include "CoreMinimal.h"
 
@@ -120,7 +120,7 @@ private:
 	int delayForSlowCounter = 0;
 	int currentForSlowCounter = 0;
 	JsonLoader Loader;
-	//WebSockets Connection;
+	WebSockets Socket;
 public:
 	AIEnvironment();
 	~AIEnvironment();

@@ -89,9 +89,11 @@ void AIEnvironment::dispose() {
 }
 
 void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
-	//FString Message = WebSockets_Messages.front();
-	//WebSockets_Messages.pop();
-	//FActions result = this->Loader.ParseJSON(Message);
+	//if (WebSockets_Messages.size() > 0) {
+	//	FString Message = WebSockets_Messages.front();
+	//	WebSockets_Messages.pop();
+	//	FActions result = this->Loader.ParseJSON(Message);
+	//}
 	//if (this->isState == 0 && this->count > 0) {
 	//	if (!this->Connection.isConnected()) {
 	//		UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));

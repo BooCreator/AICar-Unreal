@@ -15,8 +15,8 @@ void WebSockets::Init(FString server, int ai_count) {
 	this->Close();
 	WebSockets_run = true;
 	this->ServerURL = server;
-	//if (ai_count > 0)
-	//	this->connection = new std::thread(&WebSockets::doConnect);
+	if (ai_count > 0)
+		this->connection = new std::thread(&WebSockets::doConnect);
 }
 
 void WebSockets::doConnect() {
