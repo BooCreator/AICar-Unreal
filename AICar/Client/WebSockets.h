@@ -13,15 +13,14 @@
 #include "CoreMinimal.h"
 
 bool WebSockets_run = false;
+//std::queue<FString> WebSockets_Requests;
+//std::queue<FString> WebSockets_Messages;
 
 class AICAR_API WebSockets {
 private:
 	FString ServerURL = TEXT("ws://127.0.0.1/");
 	FString ws = TEXT("ws");
 	//std::thread* connection = nullptr;
-public:
-	static std::queue<FString> WebSockets_Requests;
-	static std::queue<FString> WebSockets_Messages;
 private:
 	void doConnect();
 public:
