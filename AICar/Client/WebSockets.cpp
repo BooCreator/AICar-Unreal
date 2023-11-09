@@ -10,8 +10,8 @@ FWebSockets::FWebSockets(FString Url, std::queue<FString>& In, std::queue<FStrin
 	}
 
     this->url = Url;
-    this->in = In;
-    this->out = Out;
+    this->in = &In;
+    this->out = &Out;
     
     Thread = FRunnableThread::Create(this, TEXT("WebSockets"), 0, TPri_BelowNormal); //windows default = 8mb for thread, could specify more
 }
