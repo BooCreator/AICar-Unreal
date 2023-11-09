@@ -15,8 +15,8 @@ void WebSockets::Init(FString server, int ai_count) {
 	this->Close();
 	WebSockets_run = true;
 	this->ServerURL = server;
-	//if (ai_count > 0)
-	//	this->connection = new std::thread(&WebSockets::doConnect);
+	if (ai_count > 0)
+		this->connection = new std::thread(&WebSockets::doConnect);
 }
 
 void WebSockets::doConnect() {
@@ -26,28 +26,28 @@ void WebSockets::doConnect() {
 	Socket->OnConnectionError().AddRaw(this, &WebSockets::OnError);
 	Socket->OnMessage().AddRaw(this, &WebSockets::OnMessage);
 
-	//while (WebSockets_run) {
-	//	int sleep_time = 1;
-	//	if (Socket->IsConnected()) {
-	//		if (WebSockets_Requests.size() > 0) {
-	//			FString JSONPayload = WebSockets_Requests.front();
-	//			WebSockets_Requests.pop();
-	//			Socket->Send(JSONPayload);
-	//		}
-	//	}
-	//	else {
-	//		UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));
-	//		Socket->Connect();
-	//		sleep_time = 1000;
-	//	}
-	//	Sleep(sleep_time);
-	//}
+	while (WebSockets_run) {
+		int sleep_time = 1;
+		if (Socket->IsConnected()) {
+			//if (WebSockets_Requests.size() > 0) {
+			//	FString JSONPayload = WebSockets_Requests.front();
+			//	WebSockets_Requests.pop();
+			//	Socket->Send(JSONPayload);
+			//}
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));
+			Socket->Connect();
+			sleep_time = 1000;
+		}
+		Sleep(sleep_time);
+	}
 	Socket->Close();
 }
 
 void WebSockets::Close() {
+	WebSockets_run = false;
 	//if (this->connection) {
-	//	WebSockets_run = false;
 	//	this->connection->join();
 	//	delete this->connection;
 	//}
