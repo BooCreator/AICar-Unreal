@@ -4,8 +4,6 @@
 #include "WebSocketsModule.h" // Module definition
 #include "IWebSocket.h"       // Socket definition
 
-#include <thread>
-
 #include "Modules/ModuleManager.h"
 
 //#include <queue>
@@ -19,9 +17,7 @@ class AICAR_API WebSockets {
 private:
 	FString ServerURL = TEXT("ws://127.0.0.1/");
 	FString ws = TEXT("ws");
-	std::thread* connection = nullptr;
-private:
-	void doConnect();
+	//std::thread* connection = nullptr;
 public:
 	WebSockets();
 	~WebSockets();
