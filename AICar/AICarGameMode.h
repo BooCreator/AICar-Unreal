@@ -91,6 +91,7 @@ private:
 	// Called every substep for selected body instance
 	void CustomPhysics(float DeltaSeconds, FBodyInstance* BodyInstance);
 	bool binded = false;
+	uint32 request_id = 0;
 public:
 	AAICarGameMode();
 	~AAICarGameMode();

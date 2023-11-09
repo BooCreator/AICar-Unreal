@@ -132,7 +132,7 @@ public:
 
 	void init(FString link, TArray<AMyPlayerController*> controllers);
 
-	void tick(float DeltaSeconds, FString JSONPayload);
+	void sync_tick(float DeltaSeconds, FString JSONPayload, uint32 request_ID);
 
 	FString readStringSetting(FString section, FString param);
 	float readFloatSetting(FString section, FString param);

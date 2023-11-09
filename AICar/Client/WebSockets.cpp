@@ -41,7 +41,6 @@ uint32 FWebSockets::Run()
             sleep_time = 0.001f;
 			if (this->in->size() > 0) {
 				FString JSONPayload = this->in->front();
-				this->in->pop();
 				Socket->Send(JSONPayload);
 			}
 		} else {

@@ -93,10 +93,9 @@ void AIEnvironment::dispose() {
 	}
 }
 
-void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
-	if (this->Socket && this->Socket.IsConnected()) {
-	if (this->Requests.size() == 0)
-			this->Requests.push(JSONPayload);
+void AIEnvironment::sync_tick(float DeltaSeconds, FString JSONPayload, uint32 request_ID) {
+	if (this->Socket && this->Socket->IsConnected()) {
+		this->Requests.push(JSONPayload);
 		while(!this->Messages.size()) {
 			FPlatformProcess::Sleep(0.001f);
 		}

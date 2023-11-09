@@ -42,7 +42,8 @@ public:
 		TArray<FAction> cars;
 	UPROPERTY()
 		FParams params;
-
+	UPROPERTY()
+		int request_ID;
 	FActions() {}
 };
 /**
