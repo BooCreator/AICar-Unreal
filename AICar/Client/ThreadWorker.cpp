@@ -6,11 +6,14 @@
 
 FThreadWorker* FThreadWorker::Runnable = NULL;
 
+FThreadWorker::FThreadWorker(FString Url, TArray<FString>& In, TArray<FString>& Out) : StopTaskCounter(0) {
+	if (!FModuleManager::Get().IsModuleLoaded("WebSockets")) {
+		FModuleManager::Get().LoadModule("WebSockets");
+	}
 
-FThreadWorker::FThreadWorker(FString Url, TArray& In, TArray& Out) : StopTaskCounter(0) {
     this->url = Url;
-    this->in = &In;
-    this->out = &Out;
+    this->in = In;
+    this->out = Out;
     
     Thread = FRunnableThread::Create(this, TEXT("FThreadWorker"), 0, TPri_BelowNormal); //windows default = 8mb for thread, could specify more
 }
@@ -26,11 +29,11 @@ bool FThreadWorker::Init() {
 
 uint32 FThreadWorker::Run()
 {
-    TSharedPtr<IWebSocket> Socket = FWebSocketsModule::Get().CreateWebSocket(this->ServerURL, this->ws);
+    TSharedPtr<IWebSocket> Socket = FWebSocketsModule::Get().CreateWebSocket(this->url, TEXT("ws"));
 
-	Socket->OnConnected().AddRaw(this, &WebSockets::OnConnected);
-	Socket->OnConnectionError().AddRaw(this, &WebSockets::OnError);
-	Socket->OnMessage().AddRaw(this, &WebSockets::OnMessage);
+	Socket->OnConnected().AddRaw(this, &FThreadWorker::OnConnected);
+	Socket->OnConnectionError().AddRaw(this, &FThreadWorker::OnError);
+	Socket->OnMessage().AddRaw(this, &FThreadWorker::OnMessage);
 
     while (StopTaskCounter.GetValue() == 0 && ! IsFinished())
     {
@@ -56,9 +59,9 @@ void FThreadWorker::Stop() {
     StopTaskCounter.Increment(); 
 }
 
-FThreadWorker* FThreadWorker::JoyInit(FString Url, TArray& In, TArray& Out) {
+FThreadWorker* FThreadWorker::JoyInit(FString Url, TArray<FString>& In, TArray<FString>& Out) {
     if (!Runnable) {
-        Runnable = new FThreadWorker(Url, &in, &Out);         
+        Runnable = new FThreadWorker(Url, In, Out);         
     }
     return Runnable;
 }
@@ -79,4 +82,17 @@ void FThreadWorker::Shutdown() {
 bool FThreadWorker::IsThreadFinished() {
     if(Runnable) return Runnable->IsFinished();
     return true;
+}
+
+void FThreadWorker::OnConnected() {
+	UE_LOG(LogTemp, Warning, TEXT("WebSockets connected!"));
+}
+
+void FThreadWorker::OnError(const FString & Message) {
+	UE_LOG(LogTemp, Warning, TEXT("WebSockets error: %s!"), *Message);
+}
+
+void FThreadWorker::OnMessage(const FString & Message) {
+	UE_LOG(LogTemp, Warning, TEXT("WebSockets on_message: %s"), *Message);
+	//WebSockets_Messages.push(Message);
 }

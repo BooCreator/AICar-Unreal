@@ -1,7 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+#include "WebSocketsModule.h" // Module definition
+#include "IWebSocket.h"       // Socket definition
+
+#include "Modules/ModuleManager.h"
+
 #include "HAL/Runnable.h"
+
 #include "CoreMinimal.h"
 
 /**
@@ -15,16 +21,16 @@ class FThreadWorker : public FRunnable
     FRunnableThread* Thread;
     
     FString url;
-    TArray* In;
-    TArray* Out;
+    TArray<FString> in;
+    TArray<FString> out;
     
     FThreadSafeCounter StopTaskCounter;
 
 public:
 
-    bool IsFinished() const { return PrimesFoundCount >= TotalPrimesToFind; }
+    bool IsFinished() const { return false; }
     
-    FThreadWorker(FString Url, TArray& In, TArray& Out);
+    FThreadWorker(FString Url, TArray<FString>& In, TArray<FString>& Out);
     virtual ~FThreadWorker();
 
     // Begin FRunnable interface.
@@ -34,8 +40,12 @@ public:
 
     void EnsureCompletion();
     
-    static FThreadWorker* JoyInit(FString Url, TArray& In, TArray& Out);
+    static FThreadWorker* JoyInit(FString Url, TArray<FString>& In, TArray<FString>& Out);
     static void Shutdown();
     static bool IsThreadFinished();
+
+	void OnMessage(const FString & Message);
+	void OnError(const FString & Message);
+	void OnConnected();
 
 };
