@@ -50,8 +50,8 @@ void AIEnvironment::load_ai() {
 
 void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
 	this->myCarsController = controllers;
-	this->Requests.clear();
-	this->Messages.clear();
+	this->Requests = std::queue<FString>();
+	this->Messages = std::queue<FString>();
 	this->reset = true;
 }
 
@@ -94,8 +94,8 @@ void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
 		FString Message = this->Messages.front();
 		this->Messages.pop();
 		FActions actions = this->Loader.ParseJSON(Message);
-		int count = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
-		for (int i = 0; i < count; i++)
+		int n = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
+		for (int i = 0; i < n; i++)
 		{
 			auto car = this->myCarsController[i];
 			car->setForward(actions.cars[i].gas);
