@@ -6,6 +6,7 @@
 #include "../MyPlayerController.h"
 #include "CoreMinimal.h"
 
+#include <queue>
 
 struct Colors {
 public:
@@ -71,6 +72,9 @@ public:
 
 
 struct AIParams {
+private:
+	std::queue<FString> Requests;
+	std::queue<FString> Messages;
 public:
 	FString Type;
 	UMaterialInterface* Color;

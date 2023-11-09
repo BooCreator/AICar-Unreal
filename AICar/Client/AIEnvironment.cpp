@@ -50,7 +50,8 @@ void AIEnvironment::load_ai() {
 
 void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
 	this->myCarsController = controllers;
-	this->Socket.Init(link, this->count);
+	this->Requests.clear();
+	this->Messages.clear();
 	this->reset = true;
 }
 
@@ -89,11 +90,19 @@ void AIEnvironment::dispose() {
 }
 
 void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
-	//if (this->Socket.WebSockets_Messages.size() > 0) {
-	//	FString Message = this->Socket.WebSockets_Messages.front();
-	//	this->Socket.WebSockets_Messages.pop();
-	//	FActions result = this->Loader.ParseJSON(Message);
-	//}
+	if (this->Messages.size() > 0) {
+		FString Message = this->Messages.front();
+		this->Messages.pop();
+		FActions actions = this->Loader.ParseJSON(Message);
+		int count = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
+		for (int i = 0; i < count; i++)
+		{
+			auto car = this->myCarsController[i];
+			car->setForward(actions.cars[i].gas);
+			car->setRight(actions.cars[i].rotate);
+		}
+	}
+
 	//if (this->isState == 0 && this->count > 0) {
 	//	if (!this->Connection.isConnected()) {
 	//		UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));

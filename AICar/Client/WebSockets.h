@@ -13,7 +13,7 @@
 
 class AICAR_API FWebSockets : public FRunnable{
 private:
-	static  FWebSockets* Runnable;
+	static FWebSockets* Runnable;
     
     FRunnableThread* Thread;
     
