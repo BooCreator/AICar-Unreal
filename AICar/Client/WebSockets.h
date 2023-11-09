@@ -20,8 +20,8 @@ private:
     FRunnableThread* Thread;
     
     FString url;
-    std::queue<FString> in;
-    std::queue<FString> out;
+    std::queue<FString>* in;
+    std::queue<FString>* out;
 public:
     FThreadSafeCounter StopTaskCounter;
 public:
