@@ -4,7 +4,7 @@
 
 FWebSockets* FWebSockets::Runnable = NULL;
 
-FWebSockets::FWebSockets(FString Url, TArray<FString>& In, TArray<FString>& Out) : StopTaskCounter(0) {
+FWebSockets::FWebSockets(FString Url, std::queue<FString>& In, std::queue<FString>& Out) : StopTaskCounter(0) {
 	if (!FModuleManager::Get().IsModuleLoaded("WebSockets")) {
 		FModuleManager::Get().LoadModule("WebSockets");
 	}
@@ -57,7 +57,7 @@ void FWebSockets::Stop() {
     StopTaskCounter.Increment(); 
 }
 
-FWebSockets* FWebSockets::JoyInit(FString Url, TArray<FString>& In, TArray<FString>& Out) {
+FWebSockets* FWebSockets::JoyInit(FString Url, std::queue<FString>& In, std::queue<FString>& Out) {
     if (!Runnable) {
         Runnable = new FWebSockets(Url, In, Out);         
     }

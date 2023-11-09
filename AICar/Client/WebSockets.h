@@ -9,6 +9,8 @@
 
 #include "HAL/Runnable.h"
 
+#include <queue>
+
 #include "CoreMinimal.h"
 
 class AICAR_API FWebSockets : public FRunnable {
@@ -18,14 +20,14 @@ private:
     FRunnableThread* Thread;
     
     FString url;
-    TArray<FString> in;
-    TArray<FString> out;
+    std::queue<FString> in;
+    std::queue<FString> out;
 public:
     FThreadSafeCounter StopTaskCounter;
 public:
 	bool IsFinished() const { return StopTaskCounter.GetValue() > 0; }
     
-    FWebSockets(FString Url, TArray<FString>& In, TArray<FString>& Out);
+    FWebSockets(FString Url, std::queue<FString>& In, std::queue<FString>& Out);
     virtual ~FWebSockets();
 
     // Begin FRunnable interface.
@@ -35,7 +37,7 @@ public:
 
     void EnsureCompletion();
     
-    static FWebSockets* JoyInit(FString Url, TArray<FString>& In, TArray<FString>& Out);
+    static FWebSockets* JoyInit(FString Url, std::queue<FString>& In, std::queue<FString>& Out);
     static void Shutdown();
     static bool IsThreadFinished();
 
