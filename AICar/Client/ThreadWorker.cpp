@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Client/ThreadWorker.h"
+#include "ThreadWorker.h"
 
 
 FThreadWorker* FThreadWorker::Runnable = NULL;
