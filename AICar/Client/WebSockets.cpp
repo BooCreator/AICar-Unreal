@@ -37,6 +37,7 @@ uint32 FWebSockets::Run()
     {
         float sleep_time = 1.f;
 		if (Socket->IsConnected()) {
+			this->connected = true;
             sleep_time = 0.001f;
 			if (this->in->size() > 0) {
 				FString JSONPayload = this->in->front();
@@ -50,6 +51,7 @@ uint32 FWebSockets::Run()
 		FPlatformProcess::Sleep(sleep_time);
     }
     Socket->Close();
+	this->connected = false;
     return 0;
 }
 

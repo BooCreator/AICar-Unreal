@@ -87,26 +87,31 @@ TArray<int> AIEnvironment::get_kinds(int n) {
 }
 
 void AIEnvironment::dispose() {
-	if (this->Socket && !this->Socket->IsFinished())
+	if (this->Socket && !this->Socket->IsFinished()) {
 		this->Socket->Stop();
+		this->Socket = nullptr;
+	}
 }
 
 void AIEnvironment::tick(float DeltaSeconds, FString JSONPayload) {
+	if (this->Socket && this->Socket.IsConnected()) {
 	if (this->Requests.size() == 0)
-		this->Requests.push(JSONPayload);
-	//while(!this->Messages.size()) {
-	//	FPlatformProcess::Sleep(0.001f);
-	//}
-	if (this->Messages.size() > 0) {
-		FString Message = this->Messages.front();
-		this->Messages.pop();
-		FActions actions = this->Loader.ParseJSON(Message);
-		int n = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
-		for (int i = 0; i < n; i++)
-		{
-			auto car = this->myCarsController[i];
-			car->setForward(actions.cars[i].gas);
-			car->setRight(actions.cars[i].rotate);
+			this->Requests.push(JSONPayload);
+		while(!this->Messages.size()) {
+			FPlatformProcess::Sleep(0.001f);
+		}
+		if (this->Messages.size() > 0) {
+			FString Message = this->Messages.front();
+			this->Messages.pop();
+			FActions actions = this->Loader.ParseJSON(Message);
+			int n = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
+			for (int i = 0; i < n; i++)
+			{
+				auto car = this->myCarsController[i];
+				car->setForward(actions.cars[i].gas);
+				car->setRight(actions.cars[i].rotate);
+			}
 		}
 	}
+	
 }

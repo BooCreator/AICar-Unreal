@@ -22,11 +22,14 @@ private:
     FString url;
     std::queue<FString>* in;
     std::queue<FString>* out;
+
+	bool connected = false;
 public:
     FThreadSafeCounter StopTaskCounter;
 public:
 	bool IsFinished() const { return StopTaskCounter.GetValue() > 0; }
-    
+    bool IsConnected() const { return connected; }
+
     FWebSockets(FString Url, std::queue<FString>& In, std::queue<FString>& Out);
     virtual ~FWebSockets();
 
