@@ -953,7 +953,7 @@ FString AAICarGameMode::saveCarInfoToJson(const FString& FileName, bool isSave, 
 
 void AAICarGameMode::destroyGame()
 {
-	//this->ai_env.dispose();
+	this->ai_env.dispose();
 }
 
 void AAICarGameMode::Reset()
