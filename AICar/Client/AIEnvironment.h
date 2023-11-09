@@ -119,6 +119,8 @@ private:
 	char isState = 0; // send
 	int delayForSlowCounter = 0;
 	int currentForSlowCounter = 0;
+	JsonLoader Loader;
+	//WebSockets Connection;
 public:
 	AIEnvironment();
 	~AIEnvironment();
@@ -137,10 +139,11 @@ public:
 	TArray<int> get_kinds(int n);
 
 	void dispose();
+	FActions popMessage();
+}
 public:
 	TArray<AIParams> ai;
 	bool reset = true;
 	int count = 1;
-	//WebSockets Connection;
 	TArray<AMyPlayerController*> myCarsController;
 };

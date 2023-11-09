@@ -22,7 +22,6 @@ class AICAR_API WebSockets {
 private:
 	FString ServerURL = TEXT("ws://127.0.0.1/");
 	FString ws = TEXT("ws");
-	JsonLoader Loader;
 	std::thread* connection = nullptr;
 private:
 	void doConnect();
@@ -37,6 +36,4 @@ public:
 	void OnMessage(const FString & Message);
 	void OnError(const FString & Message);
 	void OnConnected();
-
-	FActions popMessage();
 };

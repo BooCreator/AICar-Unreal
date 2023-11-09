@@ -65,10 +65,3 @@ void WebSockets::OnMessage(const FString & Message) {
 	UE_LOG(LogTemp, Warning, TEXT("WebSockets on_message: %s"), *Message);
 	WebSockets_Messages.push(Message);
 }
-
-FActions WebSockets::popMessage() {
-	FString Message = WebSockets_Messages.front();
-	WebSockets_Messages.pop();
-	FActions result = this->Loader.ParseJSON(Message);
-	return result;
-}
