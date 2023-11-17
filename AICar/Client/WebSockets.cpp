@@ -5,9 +5,9 @@
 FWebSockets* FWebSockets::Runnable = NULL;
 
 FWebSockets::FWebSockets(FString Url, std::queue<FString>& In, std::queue<FString>& Out) : StopTaskCounter(0) {
-	if (!FModuleManager::Get().IsModuleLoaded("WebSockets")) {
-		FModuleManager::Get().LoadModule("WebSockets");
-	}
+	//if (!FModuleManager::Get().IsModuleLoaded("WebSockets")) {
+	//	FModuleManager::Get().LoadModule("WebSockets");
+	//}
 
     this->url = Url;
     this->in = &In;
@@ -27,6 +27,7 @@ bool FWebSockets::Init() {
 
 uint32 FWebSockets::Run()
 {
+	
     TSharedPtr<IWebSocket> Socket = FWebSocketsModule::Get().CreateWebSocket(this->url, TEXT("ws"));
 
 	Socket->OnConnected().AddRaw(this, &FWebSockets::OnConnected);
@@ -41,6 +42,7 @@ uint32 FWebSockets::Run()
             sleep_time = 0.001f;
 			if (this->in->size() > 0) {
 				FString JSONPayload = this->in->front();
+				this->in->pop();
 				Socket->Send(JSONPayload);
 			}
 		} else {

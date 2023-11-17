@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "PhysicsEngine/PhysicsSettings.h"
 #include "AIEnvironment.h"
+#include "PhysicsEngine/PhysicsSettings.h"
 
 AIEnvironment::AIEnvironment() {
 }
@@ -96,9 +96,9 @@ void AIEnvironment::dispose() {
 void AIEnvironment::sync_tick(float DeltaSeconds, FString JSONPayload, uint32 request_ID) {
 	if (this->Socket && this->Socket->IsConnected()) {
 		this->Requests.push(JSONPayload);
-		while(!this->Messages.size()) {
-			FPlatformProcess::Sleep(0.001f);
-		}
+		//while(!this->Messages.size()) {
+		//	FPlatformProcess::Sleep(0.001f);
+		//}
 		if (this->Messages.size() > 0) {
 			FString Message = this->Messages.front();
 			this->Messages.pop();

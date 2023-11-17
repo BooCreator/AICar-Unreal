@@ -5,6 +5,8 @@
 #include "WebSocketsModule.h" // Module definition
 #include "IWebSocket.h"       // Socket definition
 
+//#include "Lws/LwsWebSocketsManager.h"
+
 #include "Modules/ModuleManager.h"
 
 #include "HAL/Runnable.h"
@@ -24,6 +26,7 @@ private:
     std::queue<FString>* out;
 
 	bool connected = false;
+
 public:
     FThreadSafeCounter StopTaskCounter;
 public:
