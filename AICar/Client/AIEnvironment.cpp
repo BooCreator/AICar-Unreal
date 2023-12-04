@@ -2,6 +2,8 @@
 
 #include "AIEnvironment.h"
 #include "PhysicsEngine/PhysicsSettings.h"
+#include "Misc/DateTime.h"
+
 
 AIEnvironment::AIEnvironment() {
 }
@@ -37,18 +39,22 @@ int AIEnvironment::readIntSetting(FString section, FString param) {
 }
 
 void AIEnvironment::load_ai() {
-	this->count = this->readIntSetting("ai_cars", "count");
-	for (int i = 0; i < this->count; i++) {
-		FString a("ai_"); a.AppendInt(i);
-		auto params = this->readStringSetting("ai_cars", a);
-		if (params.Len() > 0) {
-			AIParams ai_params(params);
-			this->ai.Add(ai_params);
+	if (!this->loaded) {
+		this->count = this->readIntSetting("ai_cars", "count");
+		for (int i = 0; i < this->count; i++) {
+			FString a("ai_"); a.AppendInt(i);
+			auto params = this->readStringSetting("ai_cars", a);
+			if (params.Len() > 0) {
+				AIParams ai_params(params);
+				this->ai.Add(ai_params);
+			}
 		}
+		this->loaded = true;
 	}
 }
 
 void AIEnvironment::init(FString link, TArray <AMyPlayerController*> controllers) {
+	this->Socket->Shutdown();
 	this->Requests = std::queue<FString>();
 	this->Messages = std::queue<FString>();
 	this->myCarsController = controllers;
@@ -94,23 +100,31 @@ void AIEnvironment::dispose() {
 }
 
 void AIEnvironment::sync_tick(float DeltaSeconds, FString JSONPayload, uint32 request_ID) {
-	if (this->Socket && this->Socket->IsConnected()) {
-		this->Requests.push(JSONPayload);
-		//while(!this->Messages.size()) {
-		//	FPlatformProcess::Sleep(0.001f);
-		//}
-		if (this->Messages.size() > 0) {
-			FString Message = this->Messages.front();
-			this->Messages.pop();
-			FActions actions = this->Loader.ParseJSON(Message);
-			int n = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
-			for (int i = 0; i < n; i++)
-			{
-				auto car = this->myCarsController[i];
-				car->setForward(actions.cars[i].gas);
-				car->setRight(actions.cars[i].rotate);
+	if (this->count > 0)
+		if (this->Socket && this->Socket->IsConnected()) {
+			auto date = FDateTime::Now();
+			UE_LOG(LogTemp, Warning, TEXT("Message send at %d.%d "), date.ToUnixTimestamp(), date.GetMillisecond())
+			DataGuard.Lock();
+			this->Requests.push(JSONPayload);
+			DataGuard.Unlock();
+			FGenericPlatformProcess::ConditionalSleep([&]() {return !this->Messages.empty(); });
+			auto date2 = FDateTime::Now();
+			UE_LOG(LogTemp, Warning, TEXT("Message get at %d.%d "), date2.ToUnixTimestamp(), date2.GetMillisecond())
+			double cnt = (date2 - date).GetTotalMilliseconds() / 1000;
+			UE_LOG(LogTemp, Warning, TEXT("Answer wait counter : %f sec"), cnt);
+			if (this->Messages.size() > 0) {
+				DataGuard.Lock();
+				FString Message = this->Messages.front();
+				this->Messages.pop();
+				DataGuard.Unlock();
+				FActions actions = this->Loader.ParseJSON(Message);
+				int n = (this->myCarsController.Num() < actions.cars.Num()) ? this->myCarsController.Num() : actions.cars.Num();
+				for (int i = 0; i < n; i++)
+				{
+					auto car = this->myCarsController[i];
+					car->setForward(actions.cars[i].gas);
+					car->setRight(actions.cars[i].rotate);
+				}
 			}
 		}
-	}
-	
 }

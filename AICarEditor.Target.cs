@@ -10,5 +10,6 @@ public class AICarEditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("AICar");
-	}
+        ExtraModuleNames.Add("MyWebSockets");
+    }
 }

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "WebSocketsModule.h" // Module definition
+#include "MyWebSocketsModule.h" // Module definition
 #include "IWebSocket.h"       // Socket definition
 
 //#include "Lws/LwsWebSocketsManager.h"
@@ -27,8 +27,10 @@ private:
 
 	bool connected = false;
 
+	
 public:
     FThreadSafeCounter StopTaskCounter;
+	mutable FCriticalSection DataGuard;
 public:
 	bool IsFinished() const { return StopTaskCounter.GetValue() > 0; }
     bool IsConnected() const { return connected; }

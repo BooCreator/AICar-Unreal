@@ -10,5 +10,6 @@ public class AICarTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 		ExtraModuleNames.Add("AICar");
-	}
+		//ExtraModuleNames.Add("ModuleTest");
+    }
 }

@@ -22,6 +22,8 @@
 #include "Sound/SoundBase.h"
 #include "PhysicsEngine/PhysicsSettings.h"
 
+#include "AICarGameMode.h"
+
 //#include "WheeledVehicleMovementComponent.h"
 
 #ifndef HMD_MODULE_INCLUDED
@@ -733,6 +735,8 @@ void AAICarPawn::RestartGame()
 
 	if (World)
 	{
+		auto MyMode = Cast<AAICarGameMode>(UGameplayStatics::GetGameMode(World));
+		MyMode->destroyGame();
 		// Используем функцию RestartLevel() для перезапуска уровня
 		UGameplayStatics::OpenLevel(World, *World->GetName(), true);
 	}

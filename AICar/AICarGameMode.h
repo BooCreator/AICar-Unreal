@@ -130,7 +130,7 @@ public:
 	FVector createNewTarget(int num);
 
 	void RestoreUpright();
-	
+
 	int maxCarCount = 2;
 	double w_area = 1;
 	double h_area = 1;
@@ -141,7 +141,7 @@ public:
 	const int SCREEN_HEIGHT = 100000;
 
 	int X1; int X2; int Y1; int Y2;
-	
+
 	Environment env = Environment(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	TArray <AAICarPawn*> myCars;
@@ -149,7 +149,7 @@ public:
 	TArray<ATargetActor*> targets;
 	AMainTargetActor* mainTargetActor;
 
-	bool cameraMainNeed = false ;
+	bool cameraMainNeed = false;
 	void FillCarInfo();
 	void loadParams();
 	void initGame();
@@ -159,7 +159,7 @@ public:
 	float readFloatSetting(FString section, FString param);
 	bool readBoolSetting(FString section, FString param);
 	FString readStringSetting(FString section, FString param);
-	FString saveCarInfoToJson(const FString& FileName, bool isSave=false, bool useStatic=false);
+	FString saveCarInfoToJson(const FString& FileName, bool isSave = false, bool useStatic = false);
 	void createTarget(ATargetActor& createTarget);
 	void destroyGame();
 	TArray<FString> GetActorCornerCoordinates(AActor* Actor);
@@ -170,7 +170,7 @@ public:
 	Params readParams() { return Params(); }
 	//--------------------------------------------------------------------------
 	double frand(int p = 100) { return float(rand() % p) / p; }
-	
+
 	UPROPERTY(EditAnywhere, Category = "Control C++")
 		TArray<FCarInfo> carInfoArr;
 	UFUNCTION(BlueprintCallable)
@@ -182,7 +182,7 @@ public:
 	void TimerCallback();
 	float TimerDelay = 2.0f;
 	virtual void Reset() override;
-	
+
 	void OnInputKeyDown(FKey Key, EInputEvent Event);
 
 	FTimerHandle TimerHandle;
@@ -194,5 +194,6 @@ private:
 	int maxCoordX = 0;
 	int maxCoordY = 0;
 	int staticPosition = 0;
+	FString JSONPayload;
 };
 

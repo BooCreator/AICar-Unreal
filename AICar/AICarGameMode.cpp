@@ -27,14 +27,14 @@ AAICarGameMode::AAICarGameMode()
 
 	this->X1 = 0; this->Y1 = 0;
 	this->X2 = w_area * MM; this->Y2 = h_area * MM;
-	
+
 	loadParams();
 	this->initGame();
 }
 
 AAICarGameMode::~AAICarGameMode()
 {
-	
+
 }
 
 
@@ -52,7 +52,7 @@ void AAICarGameMode::loadParams()
 
 void AAICarGameMode::initGame()
 {
-	myCars.Empty();	
+	myCars.Empty();
 	myCarsController.Empty();
 	targets.Empty();
 	carInfoArr.Empty();
@@ -82,25 +82,25 @@ void AAICarGameMode::createFloorAndWall()
 	float Height = BoxExtent.Y * 2.0f;
 	float Depth = BoxExtent.Z * 2.0f;
 
-    //this->env = Environment(Width, Height);
+	//this->env = Environment(Width, Height);
 	maxCoordX = BoxExtent.X;
 	maxCoordY = BoxExtent.Y;
 
 	this->wallsInfo = {
 		WallInfo(
 			(-this->maxCoordX + this->wallsShift) / M, (-this->maxCoordY + this->wallsShift) / M,
-			(this->maxCoordX - this->wallsShift)  / M, (-this->maxCoordY + this->wallsShift) / M,
+			(this->maxCoordX - this->wallsShift) / M, (-this->maxCoordY + this->wallsShift) / M,
 			2.),
 		WallInfo(
 			(this->maxCoordX - this->wallsShift) / M, (-this->maxCoordY + this->wallsShift) / M,
-			(this->maxCoordX - this->wallsShift) / M, (this->maxCoordY - this->wallsShift)  / M,
+			(this->maxCoordX - this->wallsShift) / M, (this->maxCoordY - this->wallsShift) / M,
 			2.),
 		WallInfo(
-			(this->maxCoordX - this->wallsShift)  / M,  (this->maxCoordY - this->wallsShift) / M,
-			(-this->maxCoordX + this->wallsShift) / M, (this->maxCoordY - this->wallsShift)  / M,
+			(this->maxCoordX - this->wallsShift) / M,  (this->maxCoordY - this->wallsShift) / M,
+			(-this->maxCoordX + this->wallsShift) / M, (this->maxCoordY - this->wallsShift) / M,
 			2.),
 		WallInfo(
-			(-this->maxCoordX + this->wallsShift) / M, (this->maxCoordY - this->wallsShift)  / M,
+			(-this->maxCoordX + this->wallsShift) / M, (this->maxCoordY - this->wallsShift) / M,
 			(-this->maxCoordX + this->wallsShift) / M, (-this->maxCoordY + this->wallsShift) / M,
 			2.),
 	};
@@ -149,7 +149,7 @@ void AAICarGameMode::createFloorAndWall()
 
 
 
-	
+
 	/*FRotator RotationWall1(0.0f, 0.0f, 0.0f);
 	FActorSpawnParameters SpawnInfoWall1;
 	SpawnInfoWall1.Owner = this;
@@ -157,7 +157,7 @@ void AAICarGameMode::createFloorAndWall()
 	//auto wall1 = GetWorld()->SpawnActor<AWall>( , &LocationWall1, &RotationWall1, SpawnInfoWall1);
 	//wall1->SetActorScale3D(FVector(1, 1000 * h_area, 10));
 	//wall1->SetActorScale3D(FVector(1, 1, 1));
-	
+
 
 	FVector LocationWall2(0.0f, BoxExtent.Y + 50, 0.0f);
 	FRotator RotationWall2(0.0f, 0.0f, 0.0f);
@@ -196,7 +196,7 @@ void AAICarGameMode::createCamera(int scale)
 	auto newCamera = GetWorld()->SpawnActor<AMyCamera>(Location, Rotation, SpawnInfo);
 	newCamera->Rename(*FString("Camera_main"));
 	saveStringSetting("car", "nameMainCamera", newCamera->GetName());
-	
+
 
 	FString nameCamera = newCamera->GetDebugName(newCamera);
 	//DEBUGMESSAGE("Camera: %s or %s", *nameCamera, *newCamera->GetName());
@@ -211,7 +211,7 @@ void AAICarGameMode::createCamera(int scale)
 
 void AAICarGameMode::createMainTargetActor()
 {
-	FVector LocationFloor(FMath::FRandRange(-maxCoordX + padding*MM, maxCoordX - padding*MM), FMath::FRandRange(-maxCoordY + padding*MM, maxCoordY - padding*MM), 0.0f);
+	FVector LocationFloor(FMath::FRandRange(-maxCoordX + padding * MM, maxCoordX - padding * MM), FMath::FRandRange(-maxCoordY + padding * MM, maxCoordY - padding * MM), 0.0f);
 	FRotator RotationFloor(0.0f, 0.0f, 0.0f);
 	FActorSpawnParameters SpawnInfoFloor;
 	SpawnInfoFloor.Owner = this;
@@ -268,7 +268,7 @@ void AAICarGameMode::BeginPlay()
 	FVector z(0, 0, 1);
 
 	createFloorAndWall();
-	
+
 	createMainTargetActor();
 
 	int scale = (89013 * h_area + 198.72); //���������� ����� - ����������� ��������� ���������
@@ -286,7 +286,7 @@ void AAICarGameMode::BeginPlay()
 			mainCar->SetActorLocation(Location, true, nullptr, ETeleportType::ResetPhysics);
 		}
 	}
-	
+
 	if (!this->binded) {
 		// Bind function delegate
 		mainCarCast->OnCalculateCustomPhysics.BindUObject(this, &AAICarGameMode::CustomPhysics);
@@ -331,7 +331,7 @@ void AAICarGameMode::BeginPlay()
 
 	for (int i = 0; i < maxCarCount; i++)
 	{
-		FVector Location(FMath::FRandRange(-maxCoordX + padding*MM, maxCoordX - padding*MM), FMath::FRandRange(-maxCoordY + padding*MM, maxCoordY - padding*MM), 200.0f);
+		FVector Location(FMath::FRandRange(-maxCoordX + padding * MM, maxCoordX - padding * MM), FMath::FRandRange(-maxCoordY + padding * MM, maxCoordY - padding * MM), 200.0f);
 		FRotator Rotation(0, FMath::FRandRange(0, 360), 0.0f);
 		FActorSpawnParameters SpawnInfo;
 		SpawnInfo.Owner = this;
@@ -369,7 +369,7 @@ void AAICarGameMode::BeginPlay()
 			carInfo.rotation = Rotation;
 			carInfo.cars = newCar;
 
-			FVector LocationTarget(FMath::FRandRange(-maxCoordX + padding*MM, maxCoordX - padding*MM), FMath::FRandRange(-maxCoordY + padding*MM, maxCoordY - padding*MM), 0.0f);
+			FVector LocationTarget(FMath::FRandRange(-maxCoordX + padding * MM, maxCoordX - padding * MM), FMath::FRandRange(-maxCoordY + padding * MM, maxCoordY - padding * MM), 0.0f);
 			FRotator RotationTarget(0.0f, 0.0f, 0.0f);
 			auto newTarget = GetWorld()->SpawnActor<ATargetActor>(LocationTarget, RotationTarget, SpawnInfo);
 
@@ -468,7 +468,7 @@ void AAICarGameMode::loadToEnv(bool show = false)
 			}
 		}
 	}
-	
+
 }
 
 double AAICarGameMode::vectorToAngle(FVector inputVector)
@@ -479,7 +479,7 @@ double AAICarGameMode::vectorToAngle(FVector inputVector)
 	// �������������� ���� � �������
 	angle = angle * 180 / M_PI;
 	return angle;
-} 
+}
 
 double AAICarGameMode::vectorToLenght(FVector inputVector) {
 
@@ -554,13 +554,13 @@ void AAICarGameMode::FillCarInfo()
 		carInfoArr[i].centerOfMass = FVector(myCars[i]->GetMesh()->GetCenterOfMass() / M);
 		carInfoArr[i].physicsLinearVelocity = FVector(myCars[i]->GetMesh()->GetPhysicsLinearVelocity() / M);
 		carInfoArr[i].physicsAngularVelocityInDegrees = myCars[i]->GetMesh()->GetPhysicsAngularVelocityInDegrees();
-        carInfoArr[i].rotation.Yaw = myCars[i]->GetActorRotation().Yaw;
+		carInfoArr[i].rotation.Yaw = myCars[i]->GetActorRotation().Yaw;
 		carInfoArr[i].location = FVector(myCars[i]->GetActorLocation() / M);
 		carInfoArr[i].targetPosition = FVector(myCars[i]->targetActor->GetActorLocation() / M);
 		carInfoArr[i].targetVelocity = FVector(0, 0, 0);
 		//myCars[i]->GetVehicleMovement();
 		//carInfoArr[i].speed = FMath::FloorToInt(FMath::Abs(myCars[i]->GetVehicleMovement() ->GetVehicleMovement()->GetForwardSpeed()) * 0.036f);
-	
+
 		// wheels stats
 		UWheeledVehicleMovementComponent4W* vehicle4W = CastChecked<UWheeledVehicleMovementComponent4W>(myCars[i]->GetVehicleMovement());
 		carInfoArr[i].wheelsSteerAngle = { vehicle4W->Wheels[0]->GetSteerAngle() * M_PI / 180.0, vehicle4W->Wheels[1]->GetSteerAngle() * M_PI / 180.0 }; // TODO
@@ -613,7 +613,7 @@ void AAICarGameMode::UpdateCarState()
 
 }
 
-void AAICarGameMode::SlowTick(bool show=false)
+void AAICarGameMode::SlowTick(bool show = false)
 {
 	for (int i = 0; i < myCars.Num(); i++)
 	{
@@ -626,11 +626,11 @@ void AAICarGameMode::SlowTick(bool show=false)
 	}
 	FillCarInfo();
 	saveCarInfoToJson("carInfo.json", true);
-    loadToEnv(show);
+	loadToEnv(show);
 	std::vector<JSON> vecArr = env.step();
 	for (int i = 0; i < vecArr.size(); i++)
-	{		
-        auto log = vecArr[i].log;
+	{
+		auto log = vecArr[i].log;
 		//DEBUGMESSAGE("lenght %f", lenght);
 		if (show) {
 			//UE_LOG(LogTemp, Warning, TEXT("vecArr[%i] force=%f,%f force3=%f,%f a=%f vel=%f,%f a=%f dir=%f,%f"),
@@ -638,10 +638,10 @@ void AAICarGameMode::SlowTick(bool show=false)
 			//	env.objects[i].vel.x, env.objects[i].vel.y, env.objects[i].vel.angle(), env.objects[i].dir.x, env.objects[i].dir.y);
 			//UE_LOG(LogTemp, Warning, TEXT("vecArr[%i] pos=%f,%f lastPos=%f,%f force3=%f,%f"),
 			//	i, log.force1.x, log.force1.y, log.force2.x, log.force2.y, log.force3.x, log.force3.y);
-            //UE_LOG(LogTemp, Warning, TEXT("vecArr[%i] gas=%f rot=%f, newAngleLimit=%f,"),
+			//UE_LOG(LogTemp, Warning, TEXT("vecArr[%i] gas=%f rot=%f, newAngleLimit=%f,"),
 			//	i, vecArr[i].gas, vecArr[i].rotate, log.newAngleLimit * 180 / M_PI);
 
-        }
+		}
 		myCarsController[i]->setForward(vecArr[i].gas);
 		myCarsController[i]->setRight(vecArr[i].rotate);
 	}
@@ -669,7 +669,7 @@ void AAICarGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	UE_LOG(LogTemp, Warning, TEXT("Tick %f"), DeltaSeconds);
 	//FillCarInfo();
-	FString JSONPayload = this->saveCarInfoToJson("carInfo.json", true, this->ai_env.reset);
+	//this->JSONPayload = this->saveCarInfoToJson("carInfo.json", true, this->ai_env.reset);
 	//this->ai_env.tick(DeltaSeconds, JSONPayload);
 	UE_LOG(LogTemp, Warning, TEXT("Tick end"));
 }
@@ -680,9 +680,9 @@ void AAICarGameMode::CustomPhysics(float DeltaSeconds, FBodyInstance* BodyInstan
 {
 	UE_LOG(LogTemp, Warning, TEXT("CustomPhysics::tick %f"), DeltaSeconds);
 	FillCarInfo();
-	FString JSONPayload = this->saveCarInfoToJson("carInfo.json", false, this->ai_env.reset);
-	this->ai_env.sync_tick(DeltaSeconds, JSONPayload, this->request_id);
-	UE_LOG(LogTemp, Warning, TEXT("CustomPhysics::tick end"));
+	this->JSONPayload = this->saveCarInfoToJson("carInfo.json", false, this->ai_env.reset);
+	this->ai_env.sync_tick(DeltaSeconds, this->JSONPayload, this->request_id);
+	//UE_LOG(LogTemp, Warning, TEXT("CustomPhysics::tick end"));
 }
 
 void AAICarGameMode::TimerCallback()
@@ -712,8 +712,8 @@ TArray<FString> AAICarGameMode::GetActorCornerCoordinates(AActor* Actor)
 				FBoxSphereBounds Bounds = StaticMesh->GetBoundingBox();
 
 				// �������� ���������� ����� �������
-				FVector Min = (Bounds.GetBox().Min + FVector(Actor->GetActorLocation().X, Actor->GetActorLocation().Y, 0))/M;
-				FVector Max = (Bounds.GetBox().Max + FVector(Actor->GetActorLocation().X, Actor->GetActorLocation().Y, 0))/M;
+				FVector Min = (Bounds.GetBox().Min + FVector(Actor->GetActorLocation().X, Actor->GetActorLocation().Y, 0)) / M;
+				FVector Max = (Bounds.GetBox().Max + FVector(Actor->GetActorLocation().X, Actor->GetActorLocation().Y, 0)) / M;
 
 				// �������� ������ �����
 				float Height = Bounds.GetBox().GetSize().Z;
@@ -799,24 +799,24 @@ FString AAICarGameMode::saveCarInfoToJson(const FString& FileName, bool isSave, 
 		JsonWriter->WriteObjectStart();
 		JsonWriter->WriteValue("name", myCars[i]->GetName());
 		JsonWriter->WriteArrayStart(TEXT("location"));
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].location.X:-1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].location.Y:-1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].location.Z:-1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].location.X : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].location.Y : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].location.Z : -1);
 		JsonWriter->WriteArrayEnd();
 		JsonWriter->WriteArrayStart(TEXT("rotation"));
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].rotation.Pitch:-1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].rotation.Roll:-1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].rotation.Yaw:-1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].rotation.Pitch : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].rotation.Roll : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].rotation.Yaw : -1);
 		JsonWriter->WriteArrayEnd();
 		JsonWriter->WriteArrayStart(TEXT("physicsLinearVelocity"));
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsLinearVelocity.X: -1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsLinearVelocity.Y: -1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsLinearVelocity.Z: -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsLinearVelocity.X : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsLinearVelocity.Y : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsLinearVelocity.Z : -1);
 		JsonWriter->WriteArrayEnd();
 		JsonWriter->WriteArrayStart(TEXT("physicsAngularVelocityInDegrees"));
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsAngularVelocityInDegrees.X: -1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsAngularVelocityInDegrees.Y: -1);
-		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsAngularVelocityInDegrees.Z: -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsAngularVelocityInDegrees.X : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsAngularVelocityInDegrees.Y : -1);
+		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].physicsAngularVelocityInDegrees.Z : -1);
 		JsonWriter->WriteArrayEnd();
 		JsonWriter->WriteArrayStart(TEXT("centerOfMass"));
 		JsonWriter->WriteValue((carInfoArr.Num()) ? carInfoArr[i].centerOfMass.X : -1);
@@ -931,7 +931,7 @@ FString AAICarGameMode::saveCarInfoToJson(const FString& FileName, bool isSave, 
 
 	JsonWriter->WriteObjectEnd();
 	JsonWriter->WriteObjectEnd();
-	
+
 	// Close the writer and finalize the output
 	JsonWriter->Close();
 
@@ -948,7 +948,7 @@ FString AAICarGameMode::saveCarInfoToJson(const FString& FileName, bool isSave, 
 			delete SaveFile;
 		}
 	}
-	
+
 	return JsonStr;
 }
 

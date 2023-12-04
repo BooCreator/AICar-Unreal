@@ -124,6 +124,11 @@ private:
 	std::queue<FString> Messages;
 
 	FWebSockets* Socket = nullptr;
+
+	mutable FCriticalSection DataGuard;
+
+	bool loaded = false;
+
 public:
 	AIEnvironment();
 	~AIEnvironment();

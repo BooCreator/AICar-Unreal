@@ -1,12 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "WebSockets.h"
+#include "Misc/DateTime.h"
 
 FWebSockets* FWebSockets::Runnable = NULL;
 
 FWebSockets::FWebSockets(FString Url, std::queue<FString>& In, std::queue<FString>& Out) : StopTaskCounter(0) {
-	//if (!FModuleManager::Get().IsModuleLoaded("WebSockets")) {
-	//	FModuleManager::Get().LoadModule("WebSockets");
+	//if (!FModuleManager::Get().IsModuleLoaded("MyWebSockets")) {
+	//	FModuleManager::Get().LoadModule("MyWebSockets");
 	//}
 
     this->url = Url;
@@ -27,8 +28,7 @@ bool FWebSockets::Init() {
 
 uint32 FWebSockets::Run()
 {
-	
-    TSharedPtr<IWebSocket> Socket = FWebSocketsModule::Get().CreateWebSocket(this->url, TEXT("ws"));
+    TSharedPtr<IWebSocket> Socket = FMyWebSocketsModule::Get().CreateWebSocket(this->url, TEXT("ws"));
 
 	Socket->OnConnected().AddRaw(this, &FWebSockets::OnConnected);
 	Socket->OnConnectionError().AddRaw(this, &FWebSockets::OnError);
@@ -36,20 +36,23 @@ uint32 FWebSockets::Run()
 
     while (! IsFinished())
     {
-        float sleep_time = 1.f;
 		if (Socket->IsConnected()) {
 			this->connected = true;
-            sleep_time = 0.001f;
-			if (this->in->size() > 0) {
+			FGenericPlatformProcess::ConditionalSleep([&]() {return !this->in->empty() || IsFinished(); });
+			if (this->in->size() > 0 && !IsFinished()) {
+				DataGuard.Lock();
 				FString JSONPayload = this->in->front();
 				this->in->pop();
+				DataGuard.Unlock();
+				auto date = FDateTime::Now();
+				UE_LOG(LogTemp, Warning, TEXT("Thread send at %d.%d "), date.ToUnixTimestamp(), + date.GetMillisecond())
 				Socket->Send(JSONPayload);
 			}
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("WebSockets is not connected! Connecting..."));
 			Socket->Connect();
+			FPlatformProcess::Sleep(1.f);
 		}
-		FPlatformProcess::Sleep(sleep_time);
     }
     Socket->Close();
 	this->connected = false;
@@ -61,9 +64,10 @@ void FWebSockets::Stop() {
 }
 
 FWebSockets* FWebSockets::JoyInit(FString Url, std::queue<FString>& In, std::queue<FString>& Out) {
-    if (!Runnable) {
-        Runnable = new FWebSockets(Url, In, Out);         
+    if (Runnable) {
+		Runnable->Shutdown();
     }
+	Runnable = new FWebSockets(Url, In, Out);
     return Runnable;
 }
 
@@ -94,6 +98,10 @@ void FWebSockets::OnError(const FString & Message) {
 }
 
 void FWebSockets::OnMessage(const FString & Message) {
-	UE_LOG(LogTemp, Warning, TEXT("WebSockets on_message: %s"), *Message);
+	//UE_LOG(LogTemp, Warning, TEXT("WebSockets on_message: %s"), *Message);
+	auto date = FDateTime::Now();
+	UE_LOG(LogTemp, Warning, TEXT("Thread get at %d.%d "), date.ToUnixTimestamp(), date.GetMillisecond())
+	DataGuard.Lock();
 	this->out->push(Message);
+	DataGuard.Unlock();
 }

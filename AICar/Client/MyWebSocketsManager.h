@@ -12,9 +12,7 @@
 
 #include "Windows/AllowWindowsPlatformTypes.h"
 
-THIRD_PARTY_INCLUDES_START
-#include "libwebsockets.h"
-THIRD_PARTY_INCLUDES_END
+//#include "libwebsockets.h"
 
 #include "Windows/HideWindowsPlatformTypes.h"
 

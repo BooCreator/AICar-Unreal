@@ -9,8 +9,14 @@ public class AICar : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] {
-            "Core", "CoreUObject", "Engine", "InputCore", "PhysXVehicles", "HeadMountedDisplay", "WebSockets", "Json", "JsonUtilities" });
+            "Core", "CoreUObject", "Engine", "InputCore",
+            "PhysXVehicles", "HeadMountedDisplay", "Json", "JsonUtilities",
+            "MyWebSockets",
+            //"WebSockets"
+        });
 
 		PublicDefinitions.Add("HMD_MODULE_INCLUDED=1");
-	}
+
+        //AddEngineThirdPartyPrivateStaticDependencies(Target, "libWebSockets");
+    }
 }
